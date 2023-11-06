@@ -41,18 +41,16 @@ FROM alpine:latest as stage1
 
 RUN apk add -U --no-cache ca-certificates
 
-RUN apk add bash curl && \
-  curl -fSsL https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o /wait-for-it.sh && \
-  chmod +x /wait-for-it.sh && \
-  apk del curl
+RUN apk add bash curl \
+  && curl -fSsL https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o /wait-for-it.sh \
+  && chmod +x /wait-for-it.sh  
+# && apk del curl
 
 
 FROM stage1
 
 LABEL maintainer="info@fluffybunny.com"
 LABEL description="example backend service"
-
-USER fluffybunnyuser
 
 ARG THEBINARY=server
 ENV THEBINARY=${THEBINARY}
@@ -70,6 +68,8 @@ ENV ENABLE_GRPC_SERVER_REFLECTION="true"
 ENV JWT_VALIDATORS__ISSUERS="@@@REPLACE@@@"
 ENV JWT_VALIDATORS__JWKS_URLS="@@@REPLACE@@@"
           
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD curl --fail -s http://localhost:50052/healthz | grep -q '{\"status\":\"SERVING\"}' || exit 1
 
 # If necessary, CMD can be used to overwrite the mode in docker-compose to be "--gtm.mode=server" or "--gtm.mode=worker" 
 ENTRYPOINT ["/app/server"]

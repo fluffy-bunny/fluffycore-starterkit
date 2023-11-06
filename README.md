@@ -50,3 +50,34 @@ curl --location 'http://localhost:50053/oauth/token' --header 'Content-Type: app
 ```bash
  docker build --file .\build\Dockerfile . --tag fluffycore.starterkit:latest
  ```
+
+## Health check  
+
+Currently I am using CURL in the DOCKERFILE  
+
+```yaml
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD curl --fail -s http://localhost:50052/healthz | grep -q '{\"status\":\"SERVING\"}' || exit 1
+```
+
+Now all that is needed for another service to check health is a ```condition: service_healthy```
+
+```yaml
+  whoami:
+    container_name: whoami
+    extends:
+      file: ./docker-compose-common.yml
+      service: micro
+    image: containous/whoami
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      starterkit:
+        condition: service_healthy      
+```
+
+## Docker Compose
+
+```bash
+docker-compose -f .\docker-compose.yml up -d
+```
