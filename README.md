@@ -44,3 +44,9 @@ curl --location 'http://localhost:50053/oauth/token' --header 'Content-Type: app
     "token_type": "Bearer"
 }
 ```
+
+## Docker Build
+
+```bash
+ docker build --file .\build\Dockerfile . --tag fluffycore.starterkit:latest
+ ```
