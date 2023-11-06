@@ -77,7 +77,6 @@ ENV PROBE='{{ .Assert.HTTPBodyContains .HTTP.Handler "GET" "http://localhost:500
 HEALTHCHECK --start-period=10s --retries=3 --timeout=10s --interval=10s \
     CMD ["/bin/healthcheck", "probe", "$PROBE"]
 
-# If necessary, CMD can be used to overwrite the mode in docker-compose to be "--gtm.mode=server" or "--gtm.mode=worker" 
 ENTRYPOINT ["/app/server"]
 
 
