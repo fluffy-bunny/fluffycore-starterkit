@@ -53,11 +53,13 @@ curl --location 'http://localhost:50053/oauth/token' --header 'Content-Type: app
 
 ## Health check  
 
-Currently I am using CURL in the DOCKERFILE  
+[go-healthcheck](https://github.com/phramz/go-healthcheck)  
 
 ```yaml
-HEALTHCHECK --interval=10s --timeout=3s \
-    CMD curl --fail -s http://localhost:50052/healthz | grep -q '{\"status\":\"SERVING\"}' || exit 1
+COPY --from=gregthebunny/go-healthcheck /bin/healthcheck /bin/healthcheck
+ENV PROBE='{{ .Assert.HTTPBodyContains .HTTP.Handler "GET" "http://localhost:50052/healthz" nil "SERVING" }}'
+HEALTHCHECK --start-period=10s --retries=3 --timeout=10s --interval=10s \
+    CMD ["/bin/healthcheck", "probe", "$PROBE"]
 ```
 
 Now all that is needed for another service to check health is a ```condition: service_healthy```
