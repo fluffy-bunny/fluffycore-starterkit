@@ -18,31 +18,37 @@ import (
 
 type (
 	service struct {
-		proto_helloworld.UnimplementedMyStreamServiceServer
+		proto_helloworld.MyStreamServiceFluffyCoreServer
+
 		config               *contracts_config.Config
 		scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable
 	}
 )
 
-type registrationServer struct {
-	proto_helloworld.MyStreamServiceFluffyCoreServer
+var stemService = (*service)(nil)
+
+func (s *service) Ctor(config *contracts_config.Config,
+	scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable) proto_helloworld.IFluffyCoreMyStreamServiceServer {
+	return &service{
+		config:               config,
+		scopedSomeDisposable: scopedSomeDisposable,
+	}
 }
 
-var _ endpoint.IEndpointRegistration = (*registrationServer)(nil)
+func init() {
+	var _ proto_helloworld.IFluffyCoreMyStreamServiceServer = (*service)(nil)
+	var _ endpoint.IEndpointRegistration = (*service)(nil)
 
-func (s *registrationServer) RegisterHandler(gwmux *grpc_gateway_runtime.ServeMux, conn *grpc.ClientConn) {
+}
+
+func (s *service) RegisterHandler(gwmux *grpc_gateway_runtime.ServeMux, conn *grpc.ClientConn) {
 	proto_helloworld.RegisterMyStreamServiceHandler(context.Background(), gwmux, conn)
 }
 
 func AddMyStreamService(builder di.ContainerBuilder) {
-	proto_helloworld.AddMyStreamServiceServerWithExternalRegistration[proto_helloworld.IMyStreamServiceServer](builder,
-		func(config *contracts_config.Config, scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable) proto_helloworld.IMyStreamServiceServer {
-			return &service{
-				config:               config,
-				scopedSomeDisposable: scopedSomeDisposable,
-			}
-		}, func() endpoint.IEndpointRegistration {
-			return &registrationServer{}
+	proto_helloworld.AddMyStreamServiceServerWithExternalRegistration(builder,
+		stemService.Ctor, func() endpoint.IEndpointRegistration {
+			return &service{}
 		})
 }
 
