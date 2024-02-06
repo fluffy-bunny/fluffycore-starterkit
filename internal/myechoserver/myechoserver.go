@@ -5,6 +5,7 @@ import (
 	contracts_config "github.com/fluffy-bunny/fluffycore-starterkit/internal/contracts/config"
 	services "github.com/fluffy-bunny/fluffycore-starterkit/internal/services"
 	services_handlers_healthz "github.com/fluffy-bunny/fluffycore-starterkit/internal/services/echo/handlers/healthz"
+	services_handlers_home "github.com/fluffy-bunny/fluffycore-starterkit/internal/services/echo/handlers/home"
 	services_handlers_swagger "github.com/fluffy-bunny/fluffycore-starterkit/internal/services/echo/handlers/swagger"
 	fluffycore_contracts_runtime "github.com/fluffy-bunny/fluffycore/contracts/runtime"
 	contracts_startup "github.com/fluffy-bunny/fluffycore/echo/contracts/startup"
@@ -69,5 +70,11 @@ func (s *startup) PreShutdownHook(echo *echo.Echo) error {
 func (s *startup) addAppHandlers(builder di.ContainerBuilder) {
 	// add your handlers here
 	services_handlers_healthz.AddScopedIHandler(builder)
+	services_handlers_home.AddScopedIHandler(builder)
 	services_handlers_swagger.AddScopedIHandler(builder)
+}
+func (s *startup) RegisterStaticRoutes(e *echo.Echo) error {
+	// i.e. e.Static("/css", "./css")
+	e.Static("/static", "./static")
+	return nil
 }

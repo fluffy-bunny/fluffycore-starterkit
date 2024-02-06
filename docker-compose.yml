@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   starterkit:
@@ -11,6 +11,7 @@ services:
       - "50051:50051"
       - "50052:50052"
       - "50053:50053"
+      - "9044:9044"
     environment:
       APPLICATION_NAME: "starterkit"
       APPLICATION_ENVIRONMENT: "DOCKER"
@@ -28,7 +29,7 @@ services:
       CONFIG_FILES__CLIENT_PATH: "/config/clients.json"
     volumes:
       - ./config/clients.json:/config/clients.json
-    entrypoint: [ "/app/server", "serve" ]
+    entrypoint: ["/app/server", "serve"]
 
   whoami:
     container_name: whoami
@@ -40,4 +41,4 @@ services:
       - no-new-privileges:true
     depends_on:
       starterkit:
-        condition: service_healthy      
+        condition: service_healthy

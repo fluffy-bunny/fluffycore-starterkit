@@ -52,7 +52,7 @@ var ConfigDefaultJSON = []byte(`
 		"VERSION": "1.0.0"
 	},
 	"echo": {
-		"port": 9044
+		"port": 9044 
 	}
 
   }

@@ -58,6 +58,9 @@ ENV THEBINARY=${THEBINARY}
 
 WORKDIR /app
 COPY --from=build /build/${THEBINARY} ./
+RUN mkdir /static
+COPY ./cmd/server/static ./static/
+
 
 ENV PATH=/app:${PATH}
 ENV PORT="50051"
@@ -68,16 +71,15 @@ ENV GRPC_GATEWAY_ENABLED="true"
 ENV ENABLE_GRPC_SERVER_REFLECTION="true"
 ENV JWT_VALIDATORS__ISSUERS="@@@REPLACE@@@"
 ENV JWT_VALIDATORS__JWKS_URLS="@@@REPLACE@@@"
-          
+
 # DO NOT USE CURL. imagine if someone got access to your running docker container.
 #HEALTHCHECK --interval=10s --timeout=3s \
 #    CMD curl --fail -s http://localhost:50052/healthz | grep -q '{\"status\":\"SERVING\"}' || exit 1
 COPY --from=gregthebunny/go-healthcheck /bin/healthcheck /bin/healthcheck
 ENV PROBE='{{ .Assert.HTTPBodyContains .HTTP.Handler "GET" "http://localhost:50052/healthz" nil "SERVING" }}'
 HEALTHCHECK --start-period=10s --retries=3 --timeout=10s --interval=10s \
-    CMD ["/bin/healthcheck", "probe", "$PROBE"]
+  CMD ["/bin/healthcheck", "probe", "$PROBE"]
 
 ENTRYPOINT ["/app/server"]
 
 
- 
