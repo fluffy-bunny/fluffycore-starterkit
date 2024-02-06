@@ -83,3 +83,14 @@ Now all that is needed for another service to check health is a ```condition: se
 ```bash
 docker-compose -f .\docker-compose.yml up -d
 ```
+
+## Swagger
+
+[echo-swagger](https://github.com/swaggo/echo-swagger)  
+
+We want to swag init the general dir first, which is in the cmd/server directory.  Then we want to include the swaggers in the internal
+
+```bash
+cd cmd/server
+swag init  --dir ./,../../internal  
+```
