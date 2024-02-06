@@ -14,6 +14,9 @@ type (
 		ClientPath string `json:"clientPath" mapstructure:"CLIENT_PATH"`
 	}
 )
+type EchoConfig struct {
+	Port int `json:"port"`
+}
 type Config struct {
 	ConfigFiles                            ConfigFiles `json:"configFiles" mapstructure:"CONFIG_FILES"`
 	fluffycore_contracts_config.CoreConfig `mapstructure:",squash"`
@@ -22,6 +25,7 @@ type Config struct {
 	OAuth2Port                             int                                     `json:"oauth2Port"  mapstructure:"OAUTH2_PORT"`
 	JWTValidators                          JWTValidators                           `json:"jwtValidators" mapstructure:"JWT_VALIDATORS"`
 	DDProfilerConfig                       *fluffycore_contracts_ddprofiler.Config `json:"ddProfilerConfig" mapstructure:"DD_PROFILER_CONFIG"`
+	Echo                                   EchoConfig                              `json:"echo"`
 }
 
 // ConfigDefaultJSON default json
@@ -46,6 +50,9 @@ var ConfigDefaultJSON = []byte(`
 		"SERVICE_NAME": "in-environment",
 		"APPLICATION_ENVIRONMENT": "in-environment",
 		"VERSION": "1.0.0"
+	},
+	"echo": {
+		"port": 9044
 	}
 
   }
