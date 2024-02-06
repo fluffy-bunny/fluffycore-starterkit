@@ -10,16 +10,46 @@ import (
 	endpoint "github.com/fluffy-bunny/fluffycore/contracts/endpoint"
 	grpc_gateway_runtime "github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	zerolog "github.com/rs/zerolog"
-	"google.golang.org/grpc"
+	grpc "google.golang.org/grpc"
 )
 
 type (
 	service struct {
-		proto_helloworld.UnimplementedGreeterServer
+		proto_helloworld.GreeterFluffyCoreServer
+
 		config               *contracts_config.Config
 		scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable
 	}
 )
+
+var (
+	stemService = (*service)(nil)
+)
+
+func init() {
+	var _ proto_helloworld.IFluffyCoreGreeterServer = (*service)(nil)
+	var _ endpoint.IEndpointRegistration = (*service)(nil)
+}
+
+func (s *service) Ctor(
+	config *contracts_config.Config,
+	scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable) proto_helloworld.IFluffyCoreGreeterServer {
+	return &service{
+		config:               config,
+		scopedSomeDisposable: scopedSomeDisposable,
+	}
+}
+func (s *service) RegisterFluffyCoreHandler(gwmux *grpc_gateway_runtime.ServeMux, conn *grpc.ClientConn) {
+	proto_helloworld.RegisterGreeterHandler(context.Background(), gwmux, conn)
+}
+
+func AddGreeterService(builder di.ContainerBuilder) {
+	proto_helloworld.AddGreeterServerWithExternalRegistration(builder,
+		stemService.Ctor,
+		func() endpoint.IEndpointRegistration {
+			return &service{}
+		})
+}
 
 func (s *service) SayHello(ctx context.Context, request *proto_helloworld.HelloRequest) (*proto_helloworld.HelloReply, error) {
 	log := zerolog.Ctx(ctx)
@@ -27,25 +57,4 @@ func (s *service) SayHello(ctx context.Context, request *proto_helloworld.HelloR
 	return &proto_helloworld.HelloReply{
 		Message: "Hello " + request.Name,
 	}, nil
-}
-
-type registrationServer struct {
-	proto_helloworld.GreeterFluffyCoreServer
-}
-
-var _ endpoint.IEndpointRegistration = (*registrationServer)(nil)
-
-func (s *registrationServer) RegisterHandler(gwmux *grpc_gateway_runtime.ServeMux, conn *grpc.ClientConn) {
-	proto_helloworld.RegisterGreeterHandler(context.Background(), gwmux, conn)
-}
-func AddGreeterService(builder di.ContainerBuilder) {
-	proto_helloworld.AddGreeterServerWithExternalRegistration[proto_helloworld.IGreeterServer](builder,
-		func(config *contracts_config.Config, scopedSomeDisposable fluffycore_contracts_somedisposable.IScopedSomeDisposable) proto_helloworld.IGreeterServer {
-			return &service{
-				config:               config,
-				scopedSomeDisposable: scopedSomeDisposable,
-			}
-		}, func() endpoint.IEndpointRegistration {
-			return &registrationServer{}
-		})
 }
