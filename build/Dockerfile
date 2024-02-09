@@ -69,8 +69,8 @@ ENV oauth2Port="50053"
 ENV GRPC_GATEWAY_ENABLED="true"
 
 ENV ENABLE_GRPC_SERVER_REFLECTION="true"
-ENV jwtValidators__ISSUERS="@@@REPLACE@@@"
-ENV jwtValidators__JWKS_URLS="@@@REPLACE@@@"
+ENV jwtValidators__issuers="@@@REPLACE@@@"
+ENV jwtValidators__jwksUrls="@@@REPLACE@@@"
 
 # DO NOT USE CURL. imagine if someone got access to your running docker container.
 #HEALTHCHECK --interval=10s --timeout=3s \

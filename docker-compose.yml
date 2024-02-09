@@ -24,9 +24,9 @@ services:
       customString: "In Flames"
       someSecret: "1234567890"
       ENABLE_GRPC_SERVER_REFLECTION: "true"
-      jwtValidators__ISSUERS: "http://starterkit:50053"
-      jwtValidators__JWKS_URLS: "http://starterkit:50053/.well-known/jwks"
-      CONFIG_FILES__CLIENT_PATH: "/config/clients.json"
+      jwtValidators__issuers: "http://starterkit:50053"
+      jwtValidators__jwksUrls: "http://starterkit:50053/.well-known/jwks"
+      configFiles__clientPath: "/config/clients.json"
     volumes:
       - ./config/clients.json:/config/clients.json
     entrypoint: ["/app/server", "serve"]
