@@ -18,14 +18,15 @@ type EchoConfig struct {
 	Port int `json:"port"`
 }
 type Config struct {
-	ConfigFiles                            ConfigFiles `json:"configFiles" mapstructure:"CONFIG_FILES"`
 	fluffycore_contracts_config.CoreConfig `mapstructure:",squash"`
-	CustomString                           string                                  `json:"CUSTOM_STRING" mapstructure:"CUSTOM_STRING"`
-	SomeSecret                             string                                  `json:"SOME_SECRET" mapstructure:"SOME_SECRET" redact:"true"`
-	OAuth2Port                             int                                     `json:"oauth2Port"  mapstructure:"OAUTH2_PORT"`
-	JWTValidators                          JWTValidators                           `json:"jwtValidators" mapstructure:"JWT_VALIDATORS"`
-	DDProfilerConfig                       *fluffycore_contracts_ddprofiler.Config `json:"ddProfilerConfig" mapstructure:"DD_PROFILER_CONFIG"`
-	Echo                                   EchoConfig                              `json:"echo"`
+
+	ConfigFiles      ConfigFiles                             `json:"configFiles" mapstructure:"CONFIG_FILES"`
+	CustomString     string                                  `json:"customString"`
+	SomeSecret       string                                  `json:"someSecret" redact:"true"`
+	OAuth2Port       int                                     `json:"oauth2Port"  mapstructure:"oauth2Port"`
+	JWTValidators    JWTValidators                           `json:"jwtValidators"`
+	DDProfilerConfig *fluffycore_contracts_ddprofiler.Config `json:"ddProfilerConfig"`
+	Echo             EchoConfig                              `json:"echo"`
 }
 
 // ConfigDefaultJSON default json
@@ -37,15 +38,15 @@ var ConfigDefaultJSON = []byte(`
 	"LOG_LEVEL": "info",
 	"PORT": 50051,
 	"REST_PORT": 50052,
-	"OAUTH2_PORT": 50053,
-	"CUSTOM_STRING": "some default value",
-	"SOME_SECRET": "password",
+	"oauth2Port": 50053,
+	"customString": "some default value",
+	"someSecret": "password",
 	"GRPC_GATEWAY_ENABLED": true,
-	"JWT_VALIDATORS": {},
+	"jwtValidators": {},
 	"CONFIG_FILES": {
 		"CLIENT_PATH": "./config/clients.json"
 	},
-	"DD_PROFILER_CONFIG": {
+	"ddProfilerConfig": {
 		"ENABLED": false,
 		"SERVICE_NAME": "in-environment",
 		"APPLICATION_ENVIRONMENT": "in-environment",
