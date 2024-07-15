@@ -49,7 +49,10 @@ var ConfigDefaultJSON = []byte(`
 		"clientPath": "./config/clients.json"
 	},
 	"ddProfilerConfig": {
-		"enabled": false,
+		 "ddProfilerConfig": {
+            "enabled": false
+        },
+        "tracingEnabled": false,
 		"serviceName": "in-environment",
 		"applicationEnvironment": "in-environment",
 		"version": "1.0.0"
@@ -61,12 +64,12 @@ var ConfigDefaultJSON = []byte(`
         "serviceName": "in-environment",
         "tracingConfig": {
             "enabled": false,
-            "endpointType": "http",
+            "endpointType": "stdout",
             "endpoint": "localhost:4318"
         },
         "metricConfig": {
             "enabled": false,
-            "endpointType": "http",
+            "endpointType": "stdout",
             "intervalSeconds": 10,
             "endpoint": "localhost:4318",
             "runtimeEnabled": false,

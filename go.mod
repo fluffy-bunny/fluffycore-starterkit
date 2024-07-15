@@ -8,9 +8,7 @@ go 1.22
 
 require (
 	github.com/fluffy-bunny/fluffy-dozm-di v0.0.3
-	github.com/fluffy-bunny/fluffycore v1.0.99-open-telemetry.7
-	github.com/gogo/status v1.1.1
-	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
+	github.com/fluffy-bunny/fluffycore v1.0.99-open-telemetry.10
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/reugn/async v0.8.0
@@ -59,6 +57,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/gogo/status v1.1.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang-migrate/migrate/v4 v4.17.1 // indirect
@@ -66,6 +65,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/pprof v0.0.0-20230817174616-7a8ec2ada47b // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.1-vault-5 // indirect
