@@ -29,10 +29,17 @@ service Greeter {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {
     option (google.api.http) = {
-      post: "/v1/example/echo"
+     post: "/v1/greeter/sayhello"
       body: "*"
     };
   }
+    // SayHelloDownstream is called from SayHello to demonstrate grpc opentelemetry tracing
+    rpc SayHelloDownstream (HelloRequest) returns (HelloReply) {
+      option (google.api.http) = {
+        post: "/v1/greeter/sayhellodownstream"
+        body: "*"
+      };
+    }
 }
  
 // The request message containing the user's name.

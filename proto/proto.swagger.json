@@ -19,10 +19,44 @@
     "application/json"
   ],
   "paths": {
-    "/v1/example/echo": {
+    "/v1/greeter/sayhello": {
       "post": {
         "summary": "Sends a greeting",
         "operationId": "Greeter_SayHello",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/helloworldHelloReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "The request message containing the user's name.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/helloworldHelloRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Greeter"
+        ]
+      }
+    },
+    "/v1/greeter/sayhellodownstream": {
+      "post": {
+        "summary": "SayHelloDownstream is called from SayHello to demonstrate grpc opentelemetry tracing",
+        "operationId": "Greeter_SayHelloDownstream",
         "responses": {
           "200": {
             "description": "A successful response.",

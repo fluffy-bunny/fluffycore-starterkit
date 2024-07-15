@@ -11,7 +11,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/cmd/server",
             "env": {
-                "APPLICATION_NAME": "server",
+                "APPLICATION_NAME": "fluffycore-grpc-starterkit",
                 "APPLICATION_ENVIRONMENT":"Development",
                 "LOG_LEVEL": "debug",     
                 "PRETTY_LOG":"true",
@@ -24,7 +24,11 @@
                 "ENABLE_GRPC_SERVER_REFLECTION": "true",
                 "jwtValidators__issuers": "http://localhost:50053,http://host.docker.internal:50053",
                 "jwtValidators__jwksUrls": "http://localhost:50053/.well-known/jwks,http://host.docker.internal:50053/.well-known/jwks",
-
+                "otelConfig__tracingConfig__enabled": "true",
+                "otelConfig__metricConfig__enabled": "true",
+               // "EXAMPLE_otelConfig__metricConfig__endpointType": "stdout",
+                "otelConfig__metricConfig__runtimeEnabled": "true",
+                "otelConfig__metricConfig__hostEnabled": "true",
             },
             "args": [ "serve" ]        
         }

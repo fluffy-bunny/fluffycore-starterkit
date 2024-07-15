@@ -12,6 +12,8 @@ var writeEndpoints = []string{
 var noAuthEndpoints = []string{
 	"/grpc.health.v1.Health/Check",
 	proto_helloworld.Greeter_SayHello_FullMethodName,
+	proto_helloworld.Greeter_SayHelloDownstream_FullMethodName,
+
 	proto_helloworld.MyStreamService_RequestPoints_FullMethodName,
 	proto_helloworld.MyStreamService_StreamPoints_FullMethodName,
 }

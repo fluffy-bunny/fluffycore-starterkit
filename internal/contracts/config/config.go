@@ -3,6 +3,7 @@ package config
 import (
 	fluffycore_contracts_config "github.com/fluffy-bunny/fluffycore/contracts/config"
 	fluffycore_contracts_ddprofiler "github.com/fluffy-bunny/fluffycore/contracts/ddprofiler"
+	fluffycore_contracts_otel "github.com/fluffy-bunny/fluffycore/contracts/otel"
 )
 
 type (
@@ -27,6 +28,7 @@ type Config struct {
 	JWTValidators    JWTValidators                           `json:"jwtValidators"`
 	DDProfilerConfig *fluffycore_contracts_ddprofiler.Config `json:"ddProfilerConfig"`
 	Echo             EchoConfig                              `json:"echo"`
+	OTELConfig       *fluffycore_contracts_otel.OTELConfig   `json:"otelConfig"`
 }
 
 // ConfigDefaultJSON default json
@@ -54,7 +56,23 @@ var ConfigDefaultJSON = []byte(`
 	},
 	"echo": {
 		"port": 9044 
-	}
+	},
+    "otelConfig": {
+        "serviceName": "in-environment",
+        "tracingConfig": {
+            "enabled": false,
+            "endpointType": "http",
+            "endpoint": "localhost:4318"
+        },
+        "metricConfig": {
+            "enabled": false,
+            "endpointType": "http",
+            "intervalSeconds": 10,
+            "endpoint": "localhost:4318",
+            "runtimeEnabled": false,
+            "hostEnabled": false
+        } 
+    }
 
   }
 `)
