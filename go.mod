@@ -8,7 +8,7 @@ go 1.22
 
 require (
 	github.com/fluffy-bunny/fluffy-dozm-di v0.0.3
-	github.com/fluffy-bunny/fluffycore v1.0.99-open-telemetry.10
+	github.com/fluffy-bunny/fluffycore v1.0.99-open-telemetry.11
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/reugn/async v0.8.0
