@@ -28,7 +28,7 @@
                 "otelConfig__tracingConfig__endpointType": "grpc",
                 "otelConfig__tracingConfig__endpoint": "localhost:4317",
                 "otelConfig__metricConfig__enabled": "true",
-                "otelConfig__metricConfig__endpointType": "http",
+                "otelConfig__metricConfig__endpointType": "stdout",
                 "otelConfig__metricConfig__runtimeEnabled": "true",
                 "otelConfig__metricConfig__hostEnabled": "true",
             },
